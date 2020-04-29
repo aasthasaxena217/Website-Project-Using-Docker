@@ -1,0 +1,27 @@
+services:
+   dbos:
+      image: mysql:5.7
+      volumes:
+           -mysql_storage:/var/lib/mysql
+      restart: always
+      environment:
+         MYSQL_ROOT_PASSWORD: rootpass
+         MYSQL_USER: aastha
+         MYSQL_PASSWORD: redhat
+         MYSQL_DATABASE: mydb
+    
+
+   wordpressos:
+      image: wordpress:5.4.0-php1.2-apache
+      restart: always
+      depends_on:
+               - dbos
+      ports:
+               - 8081:80
+      environment:
+           WORDPRESS_DB_HOST: dbos
+           WORDPRESS_DB_USER: aastha
+           WORDPRESS_DB_PASSWORD: redhat
+           WORPDRESS_DB_NAME: mydb
+      volumes:
+           -wordpress_storage:/var/www/html
